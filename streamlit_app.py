@@ -1,22 +1,24 @@
 import instaloader
 import streamlit as st
 
-# Funzione per ottenere la data dell'ultimo post
+# Funzione per ottenere la data del post più recente
 def get_last_post_date(username):
     L = instaloader.Instaloader()
     try:
         # Carica il profilo Instagram
         profile = instaloader.Profile.from_username(L.context, username)
         
-        # Ottiene i post del profilo
+        # Ottiene i post del profilo, ordinati dal più recente al più vecchio
         posts = profile.get_posts()
         
-        # Ottieni la data del post più recente (il primo nella lista dei post)
+        # Ottiene il primo post (che dovrebbe essere il più recente)
         last_post = next(posts)
+        
+        # Formatta la data del post
         last_post_date = last_post.date
         
         return f"L'ultimo post di {username} è stato pubblicato il {last_post_date.strftime('%d %B %Y, %H:%M:%S')}"
-    
+
     except Exception as e:
         return f"Errore nel recupero delle informazioni per {username}: {e}"
 
