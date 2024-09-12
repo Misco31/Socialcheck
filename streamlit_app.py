@@ -11,23 +11,25 @@ def get_last_post_date(username):
         # Ottiene i post del profilo
         posts = profile.get_posts()
         
-        # Ottieni la data dell'ultimo post
+        # Ottieni la data del post più recente (il primo nella lista dei post)
         last_post = next(posts)
         last_post_date = last_post.date
         
-        return f"L'ultimo post di {username} è stato pubblicato il {last_post_date}"
+        return f"L'ultimo post di {username} è stato pubblicato il {last_post_date.strftime('%d %B %Y, %H:%M:%S')}"
     
     except Exception as e:
         return f"Errore nel recupero delle informazioni per {username}: {e}"
 
-# Creazione dell'interfaccia Streamlit
+# Creazione dell'interfaccia con Streamlit
 st.title('Controlla gli ultimi post su Instagram')
 
-# Input per inserire il nome utente Instagram
+# Input per inserire il nome utente
 username = st.text_input('Inserisci un username di Instagram:')
 
-# Bottone per eseguire la ricerca
+# Bottone per eseguire il controllo
 if st.button('Controlla'):
-    # Mostra il risultato
-    result = get_last_post_date(username)
-    st.write(result)
+    if username:
+        result = get_last_post_date(username)
+        st.write(result)
+    else:
+        st.write("Per favore, inserisci un nome utente valido.")
